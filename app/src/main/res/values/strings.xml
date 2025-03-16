@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Advanced PassGen</string>
+    <string name="nav_header_subtitle">support@codedead.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="info">Info</string>
+    <string name="support">Support</string>
+    <string name="refresh_to_start">Refresh the list in order to generate new passwords</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="about">Advanced PassGen was created by DeadLine.\n\nThis app can be used to generate strong and secure passwords on the fly. Advertisements and trackers are not included in this build.\n\n All images were provided by Google, except for the Facebook, GitHub and Bluesky logo, which were provided by Icons8 (icons8.com).\n\nCopyright © 2025 CodeDead</string>
+    <string name="logo">Logo</string>
+    <string name="facebook_logo">Facebook logo</string>
+    <string name="bluesky_logo">Bluesky logo</string>
+    <string name="codedead_logo">CodeDead logo</string>
+    <string name="menu_tools">Tools</string>
+    <string name="refresh">Refresh</string>
+    <string name="support_info">If you found a bug or if you have suggestions for new features, you can reach out to us.\n\nYou can either create a new issue on GitHub or you can send an email to support@codedead.com</string>
+    <string name="github_logo">GitHub logo</string>
+    <string name="email_logo">Email logo</string>
+    <string name="text_send_mail">Send us a mail!</string>
+    <string name="copy_button">Copy</string>
+    <string name="password_copied">Password copied to clipboard!</string>
+</resources>
