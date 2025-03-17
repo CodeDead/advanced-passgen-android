@@ -29,6 +29,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
     buildToolsVersion '36.0.0'
 }
 
