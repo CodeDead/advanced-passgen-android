@@ -7,7 +7,7 @@
     <string name="menu_home">Home</string>
     <string name="info">Info</string>
     <string name="support">Support</string>
-    <string name="refresh_to_start">Refresh the list in order to generate new passwords</string>
+    <string name="refresh_to_start">Please refresh or add passwords to get started</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->

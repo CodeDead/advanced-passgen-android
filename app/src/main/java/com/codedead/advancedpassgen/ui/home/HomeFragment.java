@@ -38,7 +38,11 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(new PasswordAdapter(requireContext(), items));
 
         binding.fabAdd.setOnClickListener(view -> {
-            binding.textHome.setVisibility(View.GONE);
+            if (binding.textHome.getVisibility() == View.VISIBLE) {
+                binding.textHome.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+            }
+
             // Generate a random number
             int random = new Random().nextInt();
             items.add(new PasswordItem("password" + random, random));
@@ -48,6 +52,7 @@ public class HomeFragment extends Fragment {
         binding.fabClear.setOnClickListener(view -> {
             items.clear();
             binding.textHome.setVisibility(View.VISIBLE);
+            binding.recyclerView.setVisibility(View.GONE);
             ((PasswordAdapter) Objects.requireNonNull(recyclerView.getAdapter())).clear();
         });
 
