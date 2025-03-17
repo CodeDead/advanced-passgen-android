@@ -12,9 +12,9 @@ import com.codedead.advancedpassgen.R;
 
 public class PasswordViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView passwordTextView;
-    private ProgressBar strengthProgressBar;
-    private ImageButton copyButton;
+    private final TextView passwordTextView;
+    private final ProgressBar strengthProgressBar;
+    private final ImageButton copyButton;
 
     /**
      * Initialize a new PasswordViewHolder
@@ -39,15 +39,6 @@ public class PasswordViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * Set the password {@link TextView}
-     *
-     * @param passwordTextView The password {@link TextView}
-     */
-    public void setPasswordTextView(final TextView passwordTextView) {
-        this.passwordTextView = passwordTextView;
-    }
-
-    /**
      * Get the strength {@link ProgressBar}
      *
      * @return The strength {@link ProgressBar}
@@ -57,29 +48,11 @@ public class PasswordViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * Set the strength {@link ProgressBar}
-     *
-     * @param strengthProgressBar The strength {@link ProgressBar}
-     */
-    public void setStrengthProgressBar(final ProgressBar strengthProgressBar) {
-        this.strengthProgressBar = strengthProgressBar;
-    }
-
-    /**
      * Get the copy {@link ImageButton}
      *
      * @return The copy {@link ImageButton}
      */
     public ImageButton getCopyButton() {
         return copyButton;
-    }
-
-    /**
-     * Set the copy {@link ImageButton}
-     *
-     * @param copyButton The copy {@link ImageButton}
-     */
-    public void setCopyButton(final ImageButton copyButton) {
-        this.copyButton = copyButton;
     }
 }

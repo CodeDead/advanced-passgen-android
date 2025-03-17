@@ -2,8 +2,11 @@ package com.codedead.advancedpassgen.domain;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
+import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,49 +17,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codedead.advancedpassgen.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
 
     private final Context context;
-    private List<PasswordItem> items;
+    private final List<PasswordItem> items;
 
     /**
      * Initialize a new PasswordAdapter
      *
      * @param context The {@link Context} object
-     * @param items   The {@link List} of {@link PasswordItem} objects
      */
-    public PasswordAdapter(final Context context, final List<PasswordItem> items) {
+    public PasswordAdapter(final Context context) {
         this.context = context;
-        this.items = items;
+        this.items = new ArrayList<>();
     }
 
     /**
      * Update the adapter with new items
      *
-     * @param items The new items
+     * @param newItems The {@link List} of {@link PasswordItem} objects
      */
     @SuppressLint("NotifyDataSetChanged")
-    public void update(final List<PasswordItem> items) {
-        this.items = items;
+    public void insert(final List<PasswordItem> newItems) {
+        items.clear();
+        items.addAll(newItems);
         notifyDataSetChanged();
     }
 
     /**
      * Add an item to the adapter
      */
-    public void add() {
+    public void add(final PasswordItem item) {
+        items.add(item);
         notifyItemInserted(items.size() - 1);
-    }
-
-    /**
-     * Remove an item from the adapter
-     *
-     * @param position The position of the item to be removed
-     */
-    public void remove(final int position) {
-        notifyItemRemoved(position);
     }
 
     /**
@@ -64,9 +60,18 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
      */
     @SuppressLint("NotifyDataSetChanged")
     public void clear() {
+        items.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Called when RecyclerView needs a new {@link PasswordViewHolder} of the given type to represent
+     *
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to
+     *                 an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new {@link PasswordViewHolder} that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public PasswordViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
@@ -84,13 +89,24 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
     public void onBindViewHolder(@NonNull final PasswordViewHolder holder, final int position) {
         final PasswordItem item = items.get(position);
 
-        holder.getPasswordTextView().setText(item.getPassword());
-        holder.getStrengthProgressBar().setProgress(item.getStrength());
+        holder.getPasswordTextView().setText(item.password());
+        holder.getStrengthProgressBar().setProgress(item.strength());
 
         holder.getCopyButton().setOnClickListener(e -> {
             // Copy the password to the clipboard
-            ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
-            ClipData clip = ClipData.newPlainText("Advanced PassGen", holder.getPasswordTextView().getText());
+            final ClipboardManager clipboard = ContextCompat.getSystemService(context, ClipboardManager.class);
+            final ClipData clip = ClipData.newPlainText("Advanced PassGen", holder.getPasswordTextView().getText());
+
+            // If Android level is above android 33
+            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2) {
+                final PersistableBundle extras = new PersistableBundle();
+                extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
+                clip.getDescription().setExtras(extras);
+            } else {
+                PersistableBundle extras = new PersistableBundle();
+                extras.putBoolean("android.content.extra.IS_SENSITIVE", true);
+                clip.getDescription().setExtras(extras);
+            }
 
             assert clipboard != null;
             clipboard.setPrimaryClip(clip);

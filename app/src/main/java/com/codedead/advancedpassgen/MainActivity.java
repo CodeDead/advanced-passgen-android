@@ -1,11 +1,15 @@
 package com.codedead.advancedpassgen;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import com.codedead.advancedpassgen.domain.LocaleHelper;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +21,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.codedead.advancedpassgen.databinding.ActivityMainBinding;
 
@@ -25,9 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private int flipperPosition = 0;
+    private SharedPreferences sharedPreferences;
+    private String lastLanguage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        lastLanguage = sharedPreferences.getString("appLanguage", "en");
+        LocaleHelper.setLocale(this, lastLanguage);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
@@ -110,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 binding.navView.setCheckedItem(m1.getItem(1).getItemId());
                 break;
-
         }
     }
 
@@ -128,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -136,5 +147,28 @@ public class MainActivity extends AppCompatActivity {
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void attachBaseContext(final Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull final Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleHelper.onAttach(getBaseContext());
+    }
+
+    @Override
+    protected void onResume() {
+        final String selectedLanguage = sharedPreferences.getString("appLanguage", "en");
+
+        if (!lastLanguage.equals(selectedLanguage)) {
+            LocaleHelper.setLocale(getApplicationContext(), selectedLanguage);
+            // recreate();
+        }
+
+        super.onResume();
     }
 }
