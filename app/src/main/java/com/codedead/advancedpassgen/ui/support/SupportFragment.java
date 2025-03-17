@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.codedead.advancedpassgen.R;
 import com.codedead.advancedpassgen.databinding.FragmentSupportBinding;
+import com.codedead.advancedpassgen.utils.UtilController;
 
 public class SupportFragment extends Fragment {
 
@@ -24,14 +23,9 @@ public class SupportFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
-        SupportViewModel supportViewModel =
-                new ViewModelProvider(this).get(SupportViewModel.class);
 
         binding = FragmentSupportBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textSupport;
-        supportViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         final ImageButton btnGitHub = binding.BtnGitHub;
         final ImageButton btnEmail = binding.BtnEmail;
@@ -49,6 +43,9 @@ public class SupportFragment extends Fragment {
                 .setText(getString(R.string.text_send_mail))
                 .setChooserTitle(getString(R.string.text_send_mail))
                 .startChooser());
+
+        if (getActivity() != null)
+            UtilController.applyFlagSecure(getActivity(), false);
 
         return root;
     }

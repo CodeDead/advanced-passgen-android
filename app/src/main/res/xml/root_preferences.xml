@@ -1,34 +1,99 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
-
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory app:title="@string/general">
 
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+            app:defaultValue="en"
+            app:entries="@array/languages"
+            app:entryValues="@array/languages_values"
+            app:key="appLanguage"
+            app:negativeButtonText="@null"
+            app:positiveButtonText="@null"
+            app:summary="@string/applanguage_summary"
+            app:title="@string/application_languages" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/password_generation">
+        <EditTextPreference
+            app:key="customCharacterSet"
+            app:summary="@string/custom_character_set_summary"
+            app:title="@string/custom_character_set"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="8"
+            app:key="minimumLength"
+            app:summary="@string/minimum_length_summary"
+            app:title="@string/minimum_length"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="30"
+            app:key="maximumLength"
+            app:summary="@string/maximum_length_summary"
+            app:title="@string/maximum_length"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="100"
+            app:key="passwordAmount"
+            app:summary="@string/password_amount_summary"
+            app:title="@string/password_amount"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:defaultValue="true"
+            app:key="smallLetters"
+            app:summary="@string/small_letters_summary"
+            app:title="@string/small_letters" />
 
         <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:defaultValue="true"
+            app:key="capitalLetters"
+            app:summary="@string/capital_letters_summary"
+            app:title="@string/capital_letters" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="spaces"
+            app:summary="@string/spaces_summary"
+            app:title="@string/spaces" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="specialCharacters"
+            app:summary="@string/special_characters_summary"
+            app:title="@string/special_characters" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="numbers"
+            app:summary="@string/numbers_summary"
+            app:title="@string/numbers" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="brackets"
+            app:summary="@string/brackets_summary"
+            app:title="@string/brackets" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/security">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="preventScreenshot"
+            app:summary="@string/prevent_screenshot_summary"
+            app:title="@string/prevent_screenshot" />
 
     </PreferenceCategory>
 
