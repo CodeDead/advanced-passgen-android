@@ -1,5 +1,6 @@
 package com.codedead.advancedpassgen.domain;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
 
     private final Context context;
-    private final List<PasswordItem> items;
+    private List<PasswordItem> items;
 
     /**
      * Initialize a new PasswordAdapter
@@ -31,10 +32,45 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
         this.items = items;
     }
 
+    /**
+     * Update the adapter with new items
+     *
+     * @param items The new items
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    public void update(final List<PasswordItem> items) {
+        this.items = items;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Add an item to the adapter
+     */
+    public void add() {
+        notifyItemInserted(items.size() - 1);
+    }
+
+    /**
+     * Remove an item from the adapter
+     *
+     * @param position The position of the item to be removed
+     */
+    public void remove(final int position) {
+        notifyItemRemoved(position);
+    }
+
+    /**
+     * Clear the adapter
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    public void clear() {
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public PasswordViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-        return new PasswordViewHolder(LayoutInflater.from(context).inflate(R.layout.password_item_view, parent, false));
+        return new PasswordViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.password_item_view, parent, false));
     }
 
     /**

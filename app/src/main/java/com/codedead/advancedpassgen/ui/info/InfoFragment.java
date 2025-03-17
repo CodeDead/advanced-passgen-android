@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.codedead.advancedpassgen.databinding.FragmentInfoBinding;
+import com.codedead.advancedpassgen.utils.UtilController;
 
 public class InfoFragment extends Fragment {
 
@@ -22,13 +21,9 @@ public class InfoFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
-        final InfoViewModel infoViewModel = new ViewModelProvider(this).get(InfoViewModel.class);
 
         binding = FragmentInfoBinding.inflate(inflater, container, false);
         final View root = binding.getRoot();
-
-        final TextView textView = binding.textGallery;
-        infoViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         final ImageButton btnFacebook = binding.BtnFacebook;
         final ImageButton btnBluesky = binding.BtnBluesky;
@@ -51,6 +46,9 @@ public class InfoFragment extends Fragment {
                 return;
             openWebsite(getContext(), "https://codedead.com/");
         });
+
+        if (getActivity() != null)
+            UtilController.applyFlagSecure(getActivity(), false);
 
         return root;
     }
