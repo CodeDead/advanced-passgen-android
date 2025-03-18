@@ -47,6 +47,7 @@ dependencies {
     implementation libs.preference
     implementation libs.recyclerview
     implementation libs.swiperefreshlayout
+    implementation libs.activity
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

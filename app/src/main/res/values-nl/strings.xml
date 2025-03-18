@@ -53,4 +53,8 @@
     <string name="brackets_summary">Voeg haakjes toe aan het gegenereerde wachtwoord</string>
     <string name="password_amount">Hoeveelheid wachtwoorden</string>
     <string name="password_amount_summary">Het aantal wachtwoorden dat gegenereerd moet worden</string>
+    <string name="automatic_thread_management">Automatische threading</string>
+    <string name="automatic_thread_management_summary">Automatisch beheer van threading voor wachtwoordgeneratie</string>
+    <string name="threads">Threads</string>
+    <string name="threads_summary">Het aantal threads dat moet worden gebruikt voor wachtwoordgeneratie</string>
 </resources>

@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="separatorColor">@color/grey</item>
+        <item name="separatorColor">@color/white</item>
     </style>
 
     <style name="Theme.AdvancedPassGen.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

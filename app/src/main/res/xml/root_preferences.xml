@@ -13,6 +13,23 @@
             app:summary="@string/applanguage_summary"
             app:title="@string/application_languages" />
 
+        <SwitchPreferenceCompat
+            android:disableDependentsState="true"
+            app:defaultValue="true"
+            app:key="automaticThreading"
+            app:summary="@string/automatic_thread_management_summary"
+            app:title="@string/automatic_thread_management" />
+
+        <EditTextPreference
+            android:dependency="automaticThreading"
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            app:defaultValue="1"
+            app:key="poolSize"
+            app:summary="@string/threads_summary"
+            app:title="@string/threads"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/password_generation">

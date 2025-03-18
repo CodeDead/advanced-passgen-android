@@ -44,7 +44,6 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
      */
     @SuppressLint("NotifyDataSetChanged")
     public void insert(final List<PasswordItem> newItems) {
-        items.clear();
         items.addAll(newItems);
         notifyDataSetChanged();
     }

@@ -6,10 +6,15 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -27,8 +32,24 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 
         LocaleHelper.setLocale(this, sharedPreferences.getString("appLanguage", "en"));
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.setting_layout), (v, windowInsets) -> {
+            final Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.leftMargin = insets.left;
+            mlp.bottomMargin = insets.bottom;
+            mlp.rightMargin = insets.right;
+            mlp.topMargin = insets.top;
+            v.setLayoutParams(mlp);
+
+            // Return CONSUMED if you don't want want the window insets to keep passing
+            // down to descendant views.
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -97,6 +118,21 @@ public class SettingsActivity extends AppCompatActivity {
                     editor.apply();
                 }
             }
+            case "poolSize" -> {
+                try {
+                    int amount = Integer.parseInt(prefs.getString("poolSize", "1"));
+
+                    if (amount < 1) {
+                        final SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("poolSize", "1");
+                        editor.apply();
+                    }
+                } catch (final NumberFormatException ex) {
+                    final SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("poolSize", "1");
+                    editor.apply();
+                }
+            }
         }
     };
 
@@ -124,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-            final List<String> keys = Arrays.asList("minimumLength", "maximumLength", "passwordAmount");
+            final List<String> keys = Arrays.asList("minimumLength", "maximumLength", "passwordAmount", "poolSize");
             keys.forEach(e -> {
                 final EditTextPreference editTextPreference = getPreferenceManager().findPreference(e);
                 if (editTextPreference != null) {

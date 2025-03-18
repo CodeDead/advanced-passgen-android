@@ -52,4 +52,8 @@
     <string name="brackets_summary">Include brackets in the generated password</string>
     <string name="password_amount">Password amount</string>
     <string name="password_amount_summary">The amount of passwords to generate</string>
+    <string name="automatic_thread_management">Automatic threading</string>
+    <string name="automatic_thread_management_summary">Automatically manage threading for password generation</string>
+    <string name="threads">Threads</string>
+    <string name="threads_summary">The amount of threads to use for password generation</string>
 </resources>

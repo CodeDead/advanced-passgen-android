@@ -21,6 +21,7 @@ import com.codedead.advancedpassgen.domain.PasswordItem;
 import com.codedead.advancedpassgen.utils.UtilController;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -38,6 +39,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private boolean specialCharacters;
     private boolean numbers;
     private boolean brackets;
+    private int poolSize;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
@@ -93,6 +95,13 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         numbers = sharedPreferences.getBoolean("numbers", true);
         brackets = sharedPreferences.getBoolean("brackets", false);
 
+        final int numberOfCores = Runtime.getRuntime().availableProcessors();
+        poolSize = Math.max(2, Math.min(numberOfCores * 2, 4));
+
+        if (!sharedPreferences.getBoolean("automaticThreading", true)) {
+            poolSize = Integer.parseInt(sharedPreferences.getString("poolSize", "1"));
+        }
+
         final boolean preventScreenshot = sharedPreferences.getBoolean("preventScreenshot", true);
         if (getActivity() != null)
             UtilController.applyFlagSecure(getActivity(), preventScreenshot);
@@ -112,29 +121,45 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.fabRefresh.setEnabled(false);
         binding.fabAdd.setEnabled(false);
 
-        Executors.newSingleThreadExecutor().execute(() -> {
-            final List<PasswordItem> items = PasswordGenerator.generatePasswords(minimumLength, maximumLength, passwordAmount, smallLetters, capitalLetters, numbers, specialCharacters, brackets, spaces, customCharacterSet);
+        adapter.clear();
 
-            final FragmentActivity activity = getActivity();
-            if (activity == null)
-                return;
+        final int totalNumberOfPasswords = passwordAmount;
+        final int numberOfPasswordsPerThread = totalNumberOfPasswords / poolSize;
+        final int remainingPasswords = totalNumberOfPasswords % poolSize;
 
-            activity.runOnUiThread(() -> {
-                if (binding == null || adapter == null)
+        final ExecutorService executorService = Executors.newFixedThreadPool(Math.min(passwordAmount, poolSize));
+        for (int i = 0; i < poolSize; i++) {
+            int passwords = numberOfPasswordsPerThread;
+
+            if (i == poolSize - 1) {
+                passwords += remainingPasswords;
+            }
+
+            int finalPasswords = passwords;
+            executorService.execute(() -> {
+                final List<PasswordItem> items = PasswordGenerator.generatePasswords(minimumLength, maximumLength, finalPasswords, smallLetters, capitalLetters, numbers, specialCharacters, brackets, spaces, customCharacterSet);
+
+                final FragmentActivity activity = getActivity();
+                if (activity == null)
                     return;
 
-                binding.loadingLayout.setVisibility(View.GONE);
-                binding.swipeRefresh.setVisibility(View.VISIBLE);
-                adapter.insert(items);
+                activity.runOnUiThread(() -> {
+                    if (binding == null || adapter == null)
+                        return;
 
-                binding.fabClear.setEnabled(true);
-                binding.fabRefresh.setEnabled(true);
-                binding.fabAdd.setEnabled(true);
+                    binding.loadingLayout.setVisibility(View.GONE);
+                    binding.swipeRefresh.setVisibility(View.VISIBLE);
+                    adapter.insert(items);
 
-                binding.swipeRefresh.setRefreshing(false);
-                binding.textHome.setRefreshing(false);
+                    binding.fabClear.setEnabled(true);
+                    binding.fabRefresh.setEnabled(true);
+                    binding.fabAdd.setEnabled(true);
+
+                    binding.swipeRefresh.setRefreshing(false);
+                    binding.textHome.setRefreshing(false);
+                });
             });
-        });
+        }
     }
 
     @Override
@@ -149,6 +174,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         specialCharacters = sharedPreferences.getBoolean("specialCharacters", true);
         numbers = sharedPreferences.getBoolean("numbers", true);
         brackets = sharedPreferences.getBoolean("brackets", false);
+        if (!sharedPreferences.getBoolean("automaticThreading", true)) {
+            poolSize = Integer.parseInt(sharedPreferences.getString("poolSize", "1"));
+        }
 
         super.onResume();
 
