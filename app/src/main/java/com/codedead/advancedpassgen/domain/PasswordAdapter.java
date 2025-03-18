@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codedead.advancedpassgen.R;
@@ -91,6 +93,14 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
 
         holder.getPasswordTextView().setText(item.password());
         holder.getStrengthProgressBar().setProgress(item.strength());
+
+        if (item.strength() == 100) {
+            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.GREEN);
+        } else if (item.strength() < 35) {
+            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.RED);
+        } else if (item.strength() < 75) {
+            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.parseColor("#FFA500"));
+        }
 
         holder.getCopyButton().setOnClickListener(e -> {
             // Copy the password to the clipboard
