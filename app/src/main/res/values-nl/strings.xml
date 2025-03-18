@@ -43,7 +43,7 @@
     <string name="small_letters_summary">Gebruik kleine letters in het gegenereerde wachtwoord</string>
     <string name="capital_letters">Hoofdletters</string>
     <string name="capital_letters_summary">Gebruik hoofdletters in het gegenereerde wachtwoord</string>
-    <string name="spaces">Ruimtes</string>
+    <string name="spaces">Spaties</string>
     <string name="spaces_summary">Spaties toevoegen aan het gegenereerde wachtwoord</string>
     <string name="special_characters">Speciale tekens</string>
     <string name="special_characters_summary">Speciale tekens toevoegen aan het gegenereerde wachtwoord</string>
