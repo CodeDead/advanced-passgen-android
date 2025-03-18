@@ -7,9 +7,14 @@
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.codedead.advancedpassgen/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=com.codedead.advancedpassgen)
 
-
 This is a simple Android application that generates passwords based on the user's preferences.
 The user can choose the length of the password, the number of passwords to generate, and the characters to include in the password. The application also has a feature to copy the generated password to the clipboard.
+
+### Screenshots
+
+![Screenshot 1](/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+![Screenshot 2](/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png)
+![Screenshot 3](/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png)
 
 ### Features
 

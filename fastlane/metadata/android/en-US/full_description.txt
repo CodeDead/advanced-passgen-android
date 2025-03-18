@@ -1,0 +1,10 @@
+Advanced PassGen can help you generate hundreds of thousands of secure and strong passwords.
+
+<b>Features:</b>
+<ul>
+    <li>You decide what your passwords look like</li>
+    <li>Optimized for generating large amounts of passwords</li>
+    <li>Tries to prevent other apps from recording or taking screenshots</li>
+    <li>Supports dark mode</li>
+    <li>No ads, no spyware, no tracking</li>
+</ul>
