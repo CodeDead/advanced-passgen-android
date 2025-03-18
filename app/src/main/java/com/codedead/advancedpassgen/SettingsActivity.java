@@ -118,6 +118,21 @@ public class SettingsActivity extends AppCompatActivity {
                     editor.apply();
                 }
             }
+            case "poolSize" -> {
+                try {
+                    int amount = Integer.parseInt(prefs.getString("poolSize", "1"));
+
+                    if (amount < 1) {
+                        final SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("poolSize", "1");
+                        editor.apply();
+                    }
+                } catch (final NumberFormatException ex) {
+                    final SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("poolSize", "1");
+                    editor.apply();
+                }
+            }
         }
     };
 
@@ -145,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-            final List<String> keys = Arrays.asList("minimumLength", "maximumLength", "passwordAmount");
+            final List<String> keys = Arrays.asList("minimumLength", "maximumLength", "passwordAmount", "poolSize");
             keys.forEach(e -> {
                 final EditTextPreference editTextPreference = getPreferenceManager().findPreference(e);
                 if (editTextPreference != null) {

@@ -53,4 +53,8 @@
     <string name="brackets_summary">Inclure des parenthèses dans le mot de passe généré</string>
     <string name="password_amount">Montant du mot de passe</string>
     <string name="password_amount_summary">La quantité de mots de passe à générer</string>
+    <string name="automatic_thread_management">Gestion automatique des threads</string>
+    <string name="automatic_thread_management_summary">Gérer automatiquement les threads pour la génération de mot de passe</string>
+    <string name="threads">Threads</string>
+    <string name="threads_summary">Le nombre de threads à utiliser pour la génération de mot de passe</string>
 </resources>
