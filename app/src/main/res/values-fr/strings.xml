@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Advanced PassGen</string>
+    <string name="nav_header_subtitle">support@codedead.com</string>
+    <string name="nav_header_desc">En-tête de navigation</string>
+    <string name="action_settings">Paramètres</string>
+
+    <string name="menu_home">Home</string>
+    <string name="info">Infos</string>
+    <string name="support">Support</string>
+    <string name="refresh_to_start">Veuillez actualiser ou ajouter des mots de passe pour commencer</string>
+    <string name="title_activity_settings">Paramètres</string>
+
+    <string name="about">Advanced PassGen a été créé par DeadLine.\n\nCette application permet de générer instantanément des mots de passe forts et sécurisés. Les publicités et les trackers ne sont pas inclus dans cette version.\n\n Toutes les images ont été fournies par Google, à l\'exception des logos Facebook, GitHub et Bluesky, fournis par Icons8 (icons8.com).\n\nCopyright © 2025 CodeDead</string>
+    <string name="logo">Logo</string>
+    <string name="facebook_logo">Facebook logo</string>
+    <string name="bluesky_logo">Bluesky logo</string>
+    <string name="codedead_logo">CodeDead logo</string>
+    <string name="menu_tools">Outils</string>
+    <string name="refresh">Rafraîchir</string>
+    <string name="support_info">Si vous avez trouvé un bug ou si vous avez des suggestions de nouvelles fonctionnalités, vous pouvez nous contacter.\n\nVous pouvez soit créer un nouveau problème sur GitHub, soit envoyer un e-mail à support@codedead.com</string>
+    <string name="github_logo">GitHub logo</string>
+    <string name="email_logo">Email logo</string>
+    <string name="text_send_mail">Envoyez-nous un mail !</string>
+    <string name="copy_button">Copie</string>
+    <string name="password_copied">Mot de passe copié dans le presse-papiers!</string>
+    <string name="clear">Clair</string>
+    <string name="add">Ajouter</string>
+    <string name="security">Sécurité</string>
+    <string name="prevent_screenshot">Empêcher les captures d\'écran</string>
+    <string name="prevent_screenshot_summary">Essayez d\'empêcher la prise de captures d\'écran et d\'enregistrements lorsque des données sensibles sont affichées</string>
+    <string name="general">Général</string>
+    <string name="applanguage_summary">La langue d\'affichage de l\'application</string>
+    <string name="application_languages">Langue</string>
+    <string name="password_generation">Générateur de mot de passe</string>
+    <string name="custom_character_set">Jeu de caractères personnalisé</string>
+    <string name="custom_character_set_summary">Laissez vide pour utiliser les paramètres par défaut</string>
+    <string name="minimum_length">Longueur minimale</string>
+    <string name="minimum_length_summary">La longueur minimale du mot de passe généré</string>
+    <string name="maximum_length">Longueur maximale</string>
+    <string name="maximum_length_summary">La longueur maximale du mot de passe généré</string>
+    <string name="small_letters">Lettres minuscules</string>
+    <string name="small_letters_summary">Inclure des lettres minuscules dans le mot de passe généré</string>
+    <string name="capital_letters">Lettres majuscules</string>
+    <string name="capital_letters_summary">Inclure des lettres majuscules dans le mot de passe généré</string>
+    <string name="spaces">Espaces</string>
+    <string name="spaces_summary">Inclure des espaces dans le mot de passe généré</string>
+    <string name="special_characters">Caractères spéciaux</string>
+    <string name="special_characters_summary">Inclure des caractères spéciaux dans le mot de passe généré</string>
+    <string name="numbers">Nombres</string>
+    <string name="numbers_summary">Inclure des chiffres dans le mot de passe généré</string>
+    <string name="brackets">Supports</string>
+    <string name="brackets_summary">Inclure des parenthèses dans le mot de passe généré</string>
+    <string name="password_amount">Montant du mot de passe</string>
+    <string name="password_amount_summary">La quantité de mots de passe à générer</string>
+</resources>

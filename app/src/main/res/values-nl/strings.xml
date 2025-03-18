@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Advanced PassGen</string>
+    <string name="nav_header_subtitle">support@codedead.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Instellingen</string>
+
+    <string name="menu_home">Home</string>
+    <string name="info">Info</string>
+    <string name="support">Support</string>
+    <string name="refresh_to_start">Vernieuw of voeg wachtwoorden toe om te beginnen</string>
+    <string name="title_activity_settings">Instellingen</string>
+
+    <string name="about">Advanced PassGen werd gemaakt door DeadLine.\n\nDeze app kan worden gebruikt om sterke en veilige wachtwoorden te genereren. Advertenties en trackers zijn niet inbegrepen in deze build.\n\nAlle afbeeldingen zijn geleverd door Google, behalve het Facebook-, GitHub- en Bluesky-logo, die zijn geleverd door Icons8 (icons8.com).\n\nCopyright © 2025 CodeDead</string>
+    <string name="logo">Logo</string>
+    <string name="facebook_logo">Facebook logo</string>
+    <string name="bluesky_logo">Bluesky logo</string>
+    <string name="codedead_logo">CodeDead logo</string>
+    <string name="menu_tools">Tools</string>
+    <string name="refresh">Vernieuwen</string>
+    <string name="support_info">Als u een bug heeft gevonden of suggesties heeft voor nieuwe functies, kunt u contact met ons opnemen.\n\nU kunt een nieuw probleem op GitHub aanmaken of een e-mail sturen naar support@codedead.com</string>
+    <string name="github_logo">GitHub logo</string>
+    <string name="email_logo">Email logo</string>
+    <string name="text_send_mail">Stuur ons een e-mail!</string>
+    <string name="copy_button">Kopiëren</string>
+    <string name="password_copied">Wachtwoord gekopieerd naar klembord!</string>
+    <string name="clear">Wissen</string>
+    <string name="add">Toevoegen</string>
+    <string name="security">Beveiliging</string>
+    <string name="prevent_screenshot">Voorkom screenshots</string>
+    <string name="prevent_screenshot_summary">Probeer te voorkomen dat er screenshots en opnames worden gemaakt wanneer er gevoelige gegevens worden weergegeven</string>
+    <string name="general">Algemeen</string>
+    <string name="applanguage_summary">De taal van de app</string>
+    <string name="application_languages">Taal</string>
+    <string name="password_generation">Wachtwoordgenerator</string>
+    <string name="custom_character_set">Aangepaste tekenset</string>
+    <string name="custom_character_set_summary">Laat dit veld leeg om de standaardinstellingen te gebruiken</string>
+    <string name="minimum_length">Minimale lengte</string>
+    <string name="minimum_length_summary">De minimale lengte van het gegenereerde wachtwoord</string>
+    <string name="maximum_length">Maximale lengte</string>
+    <string name="maximum_length_summary">De maximale lengte van het gegenereerde wachtwoord</string>
+    <string name="small_letters">Kleine letters</string>
+    <string name="small_letters_summary">Gebruik kleine letters in het gegenereerde wachtwoord</string>
+    <string name="capital_letters">Hoofdletters</string>
+    <string name="capital_letters_summary">Gebruik hoofdletters in het gegenereerde wachtwoord</string>
+    <string name="spaces">Ruimtes</string>
+    <string name="spaces_summary">Spaties toevoegen aan het gegenereerde wachtwoord</string>
+    <string name="special_characters">Speciale tekens</string>
+    <string name="special_characters_summary">Speciale tekens toevoegen aan het gegenereerde wachtwoord</string>
+    <string name="numbers">Nummers</string>
+    <string name="numbers_summary">Voeg cijfers toe aan het gegenereerde wachtwoord</string>
+    <string name="brackets">Haakjes</string>
+    <string name="brackets_summary">Voeg haakjes toe aan het gegenereerde wachtwoord</string>
+    <string name="password_amount">Hoeveelheid wachtwoorden</string>
+    <string name="password_amount_summary">Het aantal wachtwoorden dat gegenereerd moet worden</string>
+</resources>
