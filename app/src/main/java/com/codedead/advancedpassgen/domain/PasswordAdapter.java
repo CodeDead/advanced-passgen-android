@@ -95,9 +95,9 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
 
         if (item.strength() == 100) {
             DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.GREEN);
-        } else if (item.strength() < 35) {
+        } else if (item.strength() <= 35) {
             DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.RED);
-        } else if (item.strength() < 75) {
+        } else if (item.strength() <= 75) {
             DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.parseColor("#FFA500"));
         }
 
