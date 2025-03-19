@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="separatorColor">@color/grey</item>
+        <item name="selectedMenuItemColor">@color/black</item>
     </style>
 
     <style name="Theme.AdvancedPassGen.NoActionBar">
