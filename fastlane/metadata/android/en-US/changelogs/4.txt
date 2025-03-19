@@ -1,0 +1,4 @@
+- Improved UI
+- Bug fixes
+- Performance improvements
+- Added ability to manage threading
