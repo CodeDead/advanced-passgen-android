@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
 
     private final Context context;
     private final List<PasswordItem> items;
+    private boolean displayStrength;
+    private PasswordViewHolder holder;
 
     /**
      * Initialize a new PasswordAdapter
@@ -35,6 +38,7 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
     public PasswordAdapter(final Context context) {
         this.context = context;
         this.items = new ArrayList<>();
+        this.displayStrength = true;
     }
 
     /**
@@ -88,10 +92,17 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
      */
     @Override
     public void onBindViewHolder(@NonNull final PasswordViewHolder holder, final int position) {
+        this.holder = holder;
         final PasswordItem item = items.get(position);
 
         holder.getPasswordTextView().setText(item.password());
         holder.getStrengthProgressBar().setProgress(item.strength());
+
+        if (displayStrength) {
+            holder.getStrengthProgressBar().setVisibility(View.VISIBLE);
+        } else {
+            holder.getStrengthProgressBar().setVisibility(View.GONE);
+        }
 
         if (item.strength() == 100) {
             DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.GREEN);
@@ -133,5 +144,22 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    /**
+     * Set the display strength setting
+     *
+     * @param displayStrength The display strength setting
+     */
+    public void setDisplayStrength(final boolean displayStrength) {
+        this.displayStrength = displayStrength;
+
+        if (holder != null) {
+            if (displayStrength) {
+                holder.getStrengthProgressBar().setVisibility(View.VISIBLE);
+            } else {
+                holder.getStrengthProgressBar().setVisibility(View.GONE);
+            }
+        }
     }
 }

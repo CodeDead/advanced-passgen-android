@@ -57,4 +57,6 @@
     <string name="automatic_thread_management_summary">Gérer automatiquement les threads pour la génération de mot de passe</string>
     <string name="threads">Threads</string>
     <string name="threads_summary">Le nombre de threads à utiliser pour la génération de mot de passe</string>
+    <string name="display_password_strength">Afficher la force du mot de passe</string>
+    <string name="display_password_strength_summary">Afficher la force du mot de passe généré dans la liste</string>
 </resources>

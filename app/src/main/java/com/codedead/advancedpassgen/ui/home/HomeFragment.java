@@ -45,13 +45,16 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+
+        final View root = binding.getRoot();
 
         binding.swipeRefresh.setOnRefreshListener(this);
         binding.textHome.setOnRefreshListener(this);
 
         final RecyclerView recyclerView = binding.recyclerView;
         adapter = new PasswordAdapter(requireContext());
+        adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -82,8 +85,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
 
         binding.fabRefresh.setOnClickListener(view -> refreshPasswords());
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         customCharacterSet = sharedPreferences.getString("customCharacterSet", "");
         minimumLength = Integer.parseInt(sharedPreferences.getString("minimumLength", "8"));
         maximumLength = Integer.parseInt(sharedPreferences.getString("maximumLength", "30"));
@@ -174,6 +175,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         specialCharacters = sharedPreferences.getBoolean("specialCharacters", true);
         numbers = sharedPreferences.getBoolean("numbers", true);
         brackets = sharedPreferences.getBoolean("brackets", false);
+        adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
         if (!sharedPreferences.getBoolean("automaticThreading", true)) {
             poolSize = Integer.parseInt(sharedPreferences.getString("poolSize", "1"));
         }
