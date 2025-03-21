@@ -14,6 +14,12 @@
             app:title="@string/application_languages" />
 
         <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="showPasswordStrength"
+            app:summary="@string/display_password_strength_summary"
+            app:title="@string/display_password_strength" />
+
+        <SwitchPreferenceCompat
             android:disableDependentsState="true"
             app:defaultValue="true"
             app:key="automaticThreading"

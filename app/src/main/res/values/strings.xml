@@ -56,4 +56,6 @@
     <string name="automatic_thread_management_summary">Automatically manage threading for password generation</string>
     <string name="threads">Threads</string>
     <string name="threads_summary">The amount of threads to use for password generation</string>
+    <string name="display_password_strength">Display password strength</string>
+    <string name="display_password_strength_summary">Display the strength of the generated password in the list</string>
 </resources>
