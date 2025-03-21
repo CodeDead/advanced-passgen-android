@@ -3,6 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/CodeDead/advanced-passgen-android)
 ![GitHub](https://img.shields.io/badge/language-Java-green)
 ![GitHub](https://img.shields.io/github/license/CodeDead/advanced-passgen-android)
+[![Test](https://github.com/CodeDead/advanced-passgen-android/actions/workflows/test.yml/badge.svg)](https://github.com/CodeDead/advanced-passgen-android/actions/workflows/test.yml)
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.codedead.advancedpassgen/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=com.codedead.advancedpassgen)
