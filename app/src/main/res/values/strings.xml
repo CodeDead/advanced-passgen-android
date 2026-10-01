@@ -10,7 +10,7 @@
     <string name="refresh_to_start">Please refresh or add passwords to get started</string>
     <string name="title_activity_settings">Settings</string>
 
-    <string name="about">Advanced PassGen was created by DeadLine.\n\nThis app can be used to generate strong and secure passwords on the fly. Advertisements and trackers are not included in this build.\n\n All images were provided by Google, except for the Facebook, GitHub and Bluesky logo, which were provided by Icons8 (icons8.com).\n\nCopyright © 2025 CodeDead</string>
+    <string name="about">Advanced PassGen was created by DeadLine.\n\nThis app can be used to generate strong and secure passwords on the fly. Advertisements and trackers are not included in this build.\n\n All images were provided by Google, except for the Facebook, GitHub and Bluesky logo, which were provided by Icons8 (icons8.com).\n\nCopyright © 2026 CodeDead</string>
     <string name="logo">Logo</string>
     <string name="facebook_logo">Facebook logo</string>
     <string name="bluesky_logo">Bluesky logo</string>
