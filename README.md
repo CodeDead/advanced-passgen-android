@@ -19,6 +19,7 @@ The user can choose the length of the password, the number of passwords to gener
 
 - [x] Generate passwords based on user preferences
 - [x] Copy generated password to clipboard
+- [x] Export generated passwords to TXT or CSV
 - [x] Dark mode support
 - [x] Material design
 - [x] Open-source

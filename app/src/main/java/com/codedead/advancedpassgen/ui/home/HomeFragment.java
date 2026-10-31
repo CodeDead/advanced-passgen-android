@@ -1,11 +1,19 @@
 package com.codedead.advancedpassgen.ui.home;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -14,13 +22,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.codedead.advancedpassgen.R;
 import com.codedead.advancedpassgen.databinding.FragmentHomeBinding;
 import com.codedead.advancedpassgen.domain.PasswordAdapter;
+import com.codedead.advancedpassgen.domain.PasswordExporter;
 import com.codedead.advancedpassgen.domain.PasswordGenerator;
 import com.codedead.advancedpassgen.domain.PasswordItem;
 import com.codedead.advancedpassgen.utils.UtilController;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,6 +59,15 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private boolean numbers;
     private boolean brackets;
     private int poolSize;
+    private List<PasswordItem> pendingExportItems;
+
+    private final ActivityResultLauncher<String> exportTxtLauncher = registerForActivityResult(
+            new ActivityResultContracts.CreateDocument("text/plain"),
+            uri -> handleExportResult(uri, PasswordExporter.Format.TXT));
+
+    private final ActivityResultLauncher<String> exportCsvLauncher = registerForActivityResult(
+            new ActivityResultContracts.CreateDocument("text/csv"),
+            uri -> handleExportResult(uri, PasswordExporter.Format.CSV));
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
@@ -59,6 +87,26 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                updateExportFabVisibility();
+            }
+
+            @Override
+            public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                updateExportFabVisibility();
+            }
+
+            @Override
+            public void onItemRangeRemoved(final int positionStart, final int itemCount) {
+                updateExportFabVisibility();
+            }
+        });
+
+        binding.fabExport.setOnClickListener(view -> showExportFormatDialog());
+        updateExportFabVisibility();
+
         binding.fabAdd.setOnClickListener(view -> {
             binding.textHome.setVisibility(View.GONE);
             binding.swipeRefresh.setVisibility(View.VISIBLE);
@@ -66,6 +114,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             binding.fabClear.setEnabled(false);
             binding.fabRefresh.setEnabled(false);
             binding.fabAdd.setEnabled(false);
+            binding.fabExport.setEnabled(false);
 
             final PasswordItem item = PasswordGenerator.generatePasswords(minimumLength, maximumLength, 1, smallLetters, capitalLetters, numbers, specialCharacters, brackets, spaces, customCharacterSet).get(0);
 
@@ -75,6 +124,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             binding.fabClear.setEnabled(true);
             binding.fabRefresh.setEnabled(true);
             binding.fabAdd.setEnabled(true);
+            binding.fabExport.setEnabled(true);
         });
 
         binding.fabClear.setOnClickListener(view -> {
@@ -121,6 +171,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.fabClear.setEnabled(false);
         binding.fabRefresh.setEnabled(false);
         binding.fabAdd.setEnabled(false);
+        binding.fabExport.setEnabled(false);
 
         adapter.clear();
 
@@ -155,12 +206,144 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     binding.fabClear.setEnabled(true);
                     binding.fabRefresh.setEnabled(true);
                     binding.fabAdd.setEnabled(true);
+                    binding.fabExport.setEnabled(true);
 
                     binding.swipeRefresh.setRefreshing(false);
                     binding.textHome.setRefreshing(false);
                 });
             });
         }
+    }
+
+    /**
+     * Show or hide the export button based on the number of passwords
+     */
+    private void updateExportFabVisibility() {
+        if (binding == null || adapter == null) {
+            return;
+        }
+
+        binding.fabExport.setVisibility(adapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * Show a dialog which allows the user to pick an export format
+     */
+    private void showExportFormatDialog() {
+        if (adapter == null || adapter.getItemCount() == 0) {
+            return;
+        }
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.export_passwords)
+                .setItems(new CharSequence[]{
+                        getString(R.string.export_txt),
+                        getString(R.string.export_csv)
+                }, (dialog, which) -> {
+                    if (which == 0) {
+                        startExport(PasswordExporter.Format.TXT);
+                    } else {
+                        startExport(PasswordExporter.Format.CSV);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /**
+     * Start an export by asking the user where to save the file
+     *
+     * @param format The {@link PasswordExporter.Format} to export the passwords in
+     */
+    private void startExport(final PasswordExporter.Format format) {
+        if (adapter == null) {
+            return;
+        }
+
+        pendingExportItems = adapter.getItems();
+
+        if (pendingExportItems.isEmpty()) {
+            return;
+        }
+
+        final String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        final String filename = "passwords_" + timestamp;
+
+        if (format == PasswordExporter.Format.TXT) {
+            exportTxtLauncher.launch(filename + ".txt");
+        } else {
+            exportCsvLauncher.launch(filename + ".csv");
+        }
+    }
+
+    /**
+     * Handle the result of the file picker
+     *
+     * @param uri    The {@link Uri} of the file to export to, or null if the user cancelled
+     * @param format The {@link PasswordExporter.Format} to export the passwords in
+     */
+    private void handleExportResult(final Uri uri, final PasswordExporter.Format format) {
+        if (uri == null) {
+            pendingExportItems = null;
+            return;
+        }
+
+        writeExport(uri, format);
+    }
+
+    /**
+     * Write the pending passwords to the selected file
+     *
+     * @param uri    The {@link Uri} of the file to export to
+     * @param format The {@link PasswordExporter.Format} to export the passwords in
+     */
+    private void writeExport(final Uri uri, final PasswordExporter.Format format) {
+        final List<PasswordItem> items = pendingExportItems;
+        pendingExportItems = null;
+
+        if (items == null || items.isEmpty()) {
+            return;
+        }
+
+        final Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
+        final Context applicationContext = context.getApplicationContext();
+        final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        executorService.execute(() -> {
+            try {
+                final OutputStream outputStream = applicationContext.getContentResolver().openOutputStream(uri, "wt");
+                if (outputStream == null) {
+                    throw new IOException("Unable to open the export file");
+                }
+
+                try (final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
+                    PasswordExporter.write(writer, items, format);
+                }
+
+                showExportResult(applicationContext, true);
+            } catch (final Exception ex) {
+                Log.e(HomeFragment.class.getSimpleName(), "An error occurred while exporting passwords: " + ex.getMessage());
+                showExportResult(applicationContext, false);
+            } finally {
+                executorService.shutdown();
+            }
+        });
+    }
+
+    /**
+     * Show the result of an export
+     *
+     * @param context The {@link Context} that can be used to show the toast
+     * @param success Whether the export was successful
+     */
+    private static void showExportResult(final Context context, final boolean success) {
+        final int message = success ? R.string.export_success : R.string.export_failed;
+
+        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
     }
 
     @Override

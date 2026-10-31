@@ -59,4 +59,9 @@
     <string name="threads_summary">Le nombre de threads à utiliser pour la génération de mot de passe</string>
     <string name="display_password_strength">Afficher la force du mot de passe</string>
     <string name="display_password_strength_summary">Afficher la force du mot de passe généré dans la liste</string>
+    <string name="export_passwords">Exporter les mots de passe</string>
+    <string name="export_txt">Texte brut (.txt)</string>
+    <string name="export_csv">CSV (.csv)</string>
+    <string name="export_success">Mots de passe exportés</string>
+    <string name="export_failed">Impossible d\'exporter les mots de passe</string>
 </resources>
