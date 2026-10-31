@@ -147,6 +147,15 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
     }
 
     /**
+     * Get a copy of the items in the adapter
+     *
+     * @return A {@link List} of {@link PasswordItem} objects
+     */
+    public List<PasswordItem> getItems() {
+        return new ArrayList<>(items);
+    }
+
+    /**
      * Set the display strength setting
      *
      * @param displayStrength The display strength setting

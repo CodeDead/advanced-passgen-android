@@ -58,4 +58,9 @@
     <string name="threads_summary">The amount of threads to use for password generation</string>
     <string name="display_password_strength">Display password strength</string>
     <string name="display_password_strength_summary">Display the strength of the generated password in the list</string>
+    <string name="export_passwords">Export passwords</string>
+    <string name="export_txt">Plain text (.txt)</string>
+    <string name="export_csv">CSV (.csv)</string>
+    <string name="export_success">Passwords exported</string>
+    <string name="export_failed">Could not export passwords</string>
 </resources>

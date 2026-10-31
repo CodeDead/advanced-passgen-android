@@ -59,4 +59,9 @@
     <string name="threads_summary">Het aantal threads dat moet worden gebruikt voor wachtwoordgeneratie</string>
     <string name="display_password_strength">Toon wachtwoordsterkte</string>
     <string name="display_password_strength_summary">Toon de sterkte van het gegenereerde wachtwoord in de lijst</string>
+    <string name="export_passwords">Wachtwoorden exporteren</string>
+    <string name="export_txt">Platte tekst (.txt)</string>
+    <string name="export_csv">CSV (.csv)</string>
+    <string name="export_success">Wachtwoorden geëxporteerd</string>
+    <string name="export_failed">Kan wachtwoorden niet exporteren</string>
 </resources>
