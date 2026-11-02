@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Surfaces and content. -->
+    <color name="window_background">#0F151B</color>
+    <color name="app_bar_background">#0B1E2B</color>
+    <color name="action_bar_background">#121A22</color>
+    <color name="password_row_bg">#1A242E</color>
+    <color name="password_row_stroke">#2B3945</color>
+    <color name="empty_state_bg">#163345</color>
+    <color name="empty_state_icon">#7CC7FF</color>
+    <color name="text_secondary">#A7B4C0</color>
+
+    <!-- Primary action colors. -->
+    <color name="action_primary_bg">#7CC7FF</color>
+    <color name="action_primary_fg">#071018</color>
+
+    <!-- Password strength. -->
+    <color name="strength_track">#33414D</color>
+    <color name="strength_weak">#FFB4AB</color>
+    <color name="strength_fair">#FFD180</color>
+    <color name="strength_good">#7CC7FF</color>
+    <color name="strength_strong">#7CDB8D</color>
+</resources>

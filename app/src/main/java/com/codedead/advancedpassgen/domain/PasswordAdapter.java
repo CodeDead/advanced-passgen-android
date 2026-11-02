@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.view.LayoutInflater;
@@ -14,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codedead.advancedpassgen.R;
@@ -28,7 +27,6 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
     private final Context context;
     private final List<PasswordItem> items;
     private boolean displayStrength;
-    private PasswordViewHolder holder;
 
     /**
      * Initialize a new PasswordAdapter
@@ -92,25 +90,16 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
      */
     @Override
     public void onBindViewHolder(@NonNull final PasswordViewHolder holder, final int position) {
-        this.holder = holder;
         final PasswordItem item = items.get(position);
+        final int strength = item.strength();
+        final int strengthColor = ContextCompat.getColor(context, getStrengthColorRes(strength));
 
         holder.getPasswordTextView().setText(item.password());
-        holder.getStrengthProgressBar().setProgress(item.strength());
-
-        if (displayStrength) {
-            holder.getStrengthProgressBar().setVisibility(View.VISIBLE);
-        } else {
-            holder.getStrengthProgressBar().setVisibility(View.GONE);
-        }
-
-        if (item.strength() == 100) {
-            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.GREEN);
-        } else if (item.strength() <= 35) {
-            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.RED);
-        } else if (item.strength() <= 75) {
-            DrawableCompat.setTint(holder.getStrengthProgressBar().getProgressDrawable(), Color.parseColor("#FFA500"));
-        }
+        holder.getStrengthProgressBar().setProgressCompat(strength, false);
+        holder.getStrengthProgressBar().setIndicatorColor(strengthColor);
+        holder.getStrengthLabel().setText(getStrengthLabelRes(strength));
+        holder.getStrengthLabel().setTextColor(strengthColor);
+        holder.getStrengthContainer().setVisibility(displayStrength ? View.VISIBLE : View.GONE);
 
         holder.getCopyButton().setOnClickListener(e -> {
             // Copy the password to the clipboard
@@ -160,15 +149,52 @@ public class PasswordAdapter extends RecyclerView.Adapter<PasswordViewHolder> {
      *
      * @param displayStrength The display strength setting
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void setDisplayStrength(final boolean displayStrength) {
-        this.displayStrength = displayStrength;
-
-        if (holder != null) {
-            if (displayStrength) {
-                holder.getStrengthProgressBar().setVisibility(View.VISIBLE);
-            } else {
-                holder.getStrengthProgressBar().setVisibility(View.GONE);
-            }
+        if (this.displayStrength == displayStrength) {
+            return;
         }
+
+        this.displayStrength = displayStrength;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Get the color resource for a password strength
+     *
+     * @param strength The strength of the password
+     * @return The color resource identifier
+     */
+    private static int getStrengthColorRes(final int strength) {
+        if (strength >= 100) {
+            return R.color.strength_strong;
+        }
+        if (strength >= 76) {
+            return R.color.strength_good;
+        }
+        if (strength >= 36) {
+            return R.color.strength_fair;
+        }
+        return R.color.strength_weak;
+    }
+
+    /**
+     * Get the label resource for a password strength
+     *
+     * @param strength The strength of the password
+     * @return The string resource identifier
+     */
+    @StringRes
+    private static int getStrengthLabelRes(final int strength) {
+        if (strength >= 100) {
+            return R.string.strength_strong;
+        }
+        if (strength >= 76) {
+            return R.string.strength_good;
+        }
+        if (strength >= 36) {
+            return R.string.strength_fair;
+        }
+        return R.string.strength_weak;
     }
 }
