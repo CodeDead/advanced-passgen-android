@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="password_sort_orders">
+        <item>Порядок генерації</item>
+        <item>Спочатку короткі</item>
+        <item>Спочатку довгі</item>
+    </string-array>
+</resources>

@@ -19,6 +19,16 @@
             app:summary="@string/display_password_strength_summary"
             app:title="@string/display_password_strength" />
 
+        <ListPreference
+            app:defaultValue="none"
+            app:entries="@array/password_sort_orders"
+            app:entryValues="@array/password_sort_order_values"
+            app:key="passwordSortOrder"
+            app:negativeButtonText="@null"
+            app:positiveButtonText="@null"
+            app:title="@string/sort_passwords"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreferenceCompat
             android:disableDependentsState="true"
             app:defaultValue="true"
