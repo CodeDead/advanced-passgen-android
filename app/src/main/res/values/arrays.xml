@@ -3,12 +3,18 @@
         <item>English</item>
         <item>Nederlands</item>
         <item>Français</item>
+        <item>Русский</item>
+        <item>Deutsch</item>
+        <item>Українська</item>
     </string-array>
 
     <string-array name="languages_values" translatable="false">
         <item>en</item>
         <item>nl</item>
         <item>fr</item>
+        <item>ru</item>
+        <item>de</item>
+        <item>uk</item>
     </string-array>
 
     <string-array name="password_sort_orders">
