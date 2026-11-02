@@ -8,7 +8,6 @@
     <string name="menu_home">Home</string>
     <string name="info">Infos</string>
     <string name="support">Support</string>
-    <string name="refresh_to_start">Veuillez actualiser ou ajouter des mots de passe pour commencer</string>
     <string name="title_activity_settings">Paramètres</string>
 
     <string name="about">Advanced PassGen a été créé par DeadLine.\n\nCette application permet de générer instantanément des mots de passe forts et sécurisés. Les publicités et les trackers ne sont pas inclus dans cette version.\n\n Toutes les images ont été fournies par Google, à l\'exception des logos Facebook, GitHub et Bluesky, fournis par Icons8 (icons8.com).\n\nCopyright © 2026 CodeDead</string>
@@ -17,15 +16,28 @@
     <string name="bluesky_logo">Bluesky logo</string>
     <string name="codedead_logo">CodeDead logo</string>
     <string name="menu_tools">Outils</string>
-    <string name="refresh">Rafraîchir</string>
     <string name="support_info">Si vous avez trouvé un bug ou si vous avez des suggestions de nouvelles fonctionnalités, vous pouvez nous contacter.\n\nVous pouvez soit créer un nouveau problème sur GitHub, soit envoyer un e-mail à support@codedead.com</string>
     <string name="github_logo">GitHub logo</string>
     <string name="email_logo">Email logo</string>
     <string name="text_send_mail">Envoyez-nous un mail !</string>
-    <string name="copy_button">Copie</string>
+    <string name="copy_button">Copier le mot de passe</string>
     <string name="password_copied">Mot de passe copié dans le presse-papiers!</string>
-    <string name="clear">Clair</string>
-    <string name="add">Ajouter</string>
+    <string name="empty_state_title">Prêt à générer</string>
+    <string name="empty_state_body">Créez des mots de passe forts à l\'aide de vos paramètres de génération enregistrés.</string>
+    <string name="generate_passwords">Générer des mots de passe</string>
+    <string name="generate">Générer</string>
+    <string name="generating_passwords">Génération des mots de passe…</string>
+    <string name="strength_weak">Faible</string>
+    <string name="strength_fair">Moyen</string>
+    <string name="strength_good">Bon</string>
+    <string name="strength_strong">Fort</string>
+    <plurals name="password_length">
+        <item quantity="one">%d caractère</item>
+        <item quantity="many">%d de caractères</item>
+        <item quantity="other">%d caractères</item>
+    </plurals>
+    <string name="clear">Effacer les mots de passe</string>
+    <string name="add">Ajouter un mot de passe</string>
     <string name="security">Sécurité</string>
     <string name="prevent_screenshot">Empêcher les captures d\'écran</string>
     <string name="prevent_screenshot_summary">Essayez d\'empêcher la prise de captures d\'écran et d\'enregistrements lorsque des données sensibles sont affichées</string>
@@ -59,6 +71,7 @@
     <string name="threads_summary">Le nombre de threads à utiliser pour la génération de mot de passe</string>
     <string name="display_password_strength">Afficher la force du mot de passe</string>
     <string name="display_password_strength_summary">Afficher la force du mot de passe généré dans la liste</string>
+    <string name="sort_passwords">Trier les mots de passe</string>
     <string name="export_passwords">Exporter les mots de passe</string>
     <string name="export_txt">Texte brut (.txt)</string>
     <string name="export_csv">CSV (.csv)</string>

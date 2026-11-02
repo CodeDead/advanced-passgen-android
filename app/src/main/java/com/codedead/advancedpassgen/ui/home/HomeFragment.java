@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -59,6 +60,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private boolean numbers;
     private boolean brackets;
     private int poolSize;
+    private boolean generating;
     private List<PasswordItem> pendingExportItems;
 
     private final ActivityResultLauncher<String> exportTxtLauncher = registerForActivityResult(
@@ -78,11 +80,12 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         final View root = binding.getRoot();
 
         binding.swipeRefresh.setOnRefreshListener(this);
-        binding.textHome.setOnRefreshListener(this);
+        binding.emptyStateRefresh.setOnRefreshListener(this);
 
         final RecyclerView recyclerView = binding.recyclerView;
         adapter = new PasswordAdapter(requireContext());
         adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
+        adapter.setSortOrder(sharedPreferences.getString("passwordSortOrder", "none"));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -90,51 +93,42 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
-                updateExportFabVisibility();
+                updateActionState();
             }
 
             @Override
             public void onItemRangeInserted(final int positionStart, final int itemCount) {
-                updateExportFabVisibility();
+                updateActionState();
             }
 
             @Override
             public void onItemRangeRemoved(final int positionStart, final int itemCount) {
-                updateExportFabVisibility();
+                updateActionState();
             }
         });
 
-        binding.fabExport.setOnClickListener(view -> showExportFormatDialog());
-        updateExportFabVisibility();
+        binding.buttonExport.setOnClickListener(view -> showExportFormatDialog());
+        binding.emptyStateButton.setOnClickListener(view -> refreshPasswords());
+        generating = false;
+        updateActionState();
 
-        binding.fabAdd.setOnClickListener(view -> {
-            binding.textHome.setVisibility(View.GONE);
-            binding.swipeRefresh.setVisibility(View.VISIBLE);
-
-            binding.fabClear.setEnabled(false);
-            binding.fabRefresh.setEnabled(false);
-            binding.fabAdd.setEnabled(false);
-            binding.fabExport.setEnabled(false);
-
+        binding.buttonAdd.setOnClickListener(view -> {
             final PasswordItem item = PasswordGenerator.generatePasswords(minimumLength, maximumLength, 1, smallLetters, capitalLetters, numbers, specialCharacters, brackets, spaces, customCharacterSet).get(0);
 
-            adapter.add(item);
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            final int position = adapter.add(item);
+            showListState();
 
-            binding.fabClear.setEnabled(true);
-            binding.fabRefresh.setEnabled(true);
-            binding.fabAdd.setEnabled(true);
-            binding.fabExport.setEnabled(true);
+            if (position != RecyclerView.NO_POSITION) {
+                recyclerView.scrollToPosition(position);
+            }
         });
 
-        binding.fabClear.setOnClickListener(view -> {
+        binding.buttonClear.setOnClickListener(view -> {
             adapter.clear();
-
-            binding.textHome.setVisibility(View.VISIBLE);
-            binding.swipeRefresh.setVisibility(View.GONE);
+            showEmptyState();
         });
 
-        binding.fabRefresh.setOnClickListener(view -> refreshPasswords());
+        binding.buttonGenerate.setOnClickListener(view -> refreshPasswords());
         customCharacterSet = sharedPreferences.getString("customCharacterSet", "");
         minimumLength = Integer.parseInt(sharedPreferences.getString("minimumLength", "8"));
         maximumLength = Integer.parseInt(sharedPreferences.getString("maximumLength", "30"));
@@ -164,20 +158,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
      * Refresh the passwords
      */
     private void refreshPasswords() {
-        binding.textHome.setVisibility(View.GONE);
-        binding.loadingLayout.setVisibility(View.VISIBLE);
-        binding.swipeRefresh.setVisibility(View.GONE);
-
-        binding.fabClear.setEnabled(false);
-        binding.fabRefresh.setEnabled(false);
-        binding.fabAdd.setEnabled(false);
-        binding.fabExport.setEnabled(false);
-
+        setGenerating(true);
+        showLoadingState();
         adapter.clear();
 
         final int totalNumberOfPasswords = passwordAmount;
         final int numberOfPasswordsPerThread = totalNumberOfPasswords / poolSize;
         final int remainingPasswords = totalNumberOfPasswords % poolSize;
+        final AtomicInteger remainingThreads = new AtomicInteger(poolSize);
 
         final ExecutorService executorService = Executors.newFixedThreadPool(Math.min(passwordAmount, poolSize));
         for (int i = 0; i < poolSize; i++) {
@@ -199,31 +187,98 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     if (binding == null || adapter == null)
                         return;
 
-                    binding.loadingLayout.setVisibility(View.GONE);
-                    binding.swipeRefresh.setVisibility(View.VISIBLE);
                     adapter.insert(items);
 
-                    binding.fabClear.setEnabled(true);
-                    binding.fabRefresh.setEnabled(true);
-                    binding.fabAdd.setEnabled(true);
-                    binding.fabExport.setEnabled(true);
+                    if (!items.isEmpty()) {
+                        showListState();
+                    }
+
+                    if (remainingThreads.decrementAndGet() == 0) {
+                        setGenerating(false);
+
+                        if (adapter.getItemCount() == 0) {
+                            showEmptyState();
+                        }
+                    }
 
                     binding.swipeRefresh.setRefreshing(false);
-                    binding.textHome.setRefreshing(false);
+                    binding.emptyStateRefresh.setRefreshing(false);
                 });
             });
         }
+
+        executorService.shutdown();
     }
 
     /**
-     * Show or hide the export button based on the number of passwords
+     * Update the enabled state of the actions in the bottom bar
      */
-    private void updateExportFabVisibility() {
+    private void updateActionState() {
         if (binding == null || adapter == null) {
             return;
         }
 
-        binding.fabExport.setVisibility(adapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
+        final boolean hasPasswords = adapter.getItemCount() > 0;
+        final boolean ready = !generating;
+
+        binding.buttonClear.setEnabled(ready && hasPasswords);
+        binding.buttonExport.setEnabled(ready && hasPasswords);
+        binding.buttonAdd.setEnabled(ready);
+        binding.buttonGenerate.setEnabled(ready);
+    }
+
+    /**
+     * Set the generating state and update the actions accordingly
+     *
+     * @param generating Whether passwords are currently being generated
+     */
+    private void setGenerating(final boolean generating) {
+        this.generating = generating;
+        updateActionState();
+    }
+
+    /**
+     * Show the empty state
+     */
+    private void showEmptyState() {
+        if (binding == null) {
+            return;
+        }
+
+        binding.emptyStateRefresh.setRefreshing(false);
+        binding.emptyStateRefresh.setVisibility(View.VISIBLE);
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.swipeRefresh.setRefreshing(false);
+        binding.swipeRefresh.setVisibility(View.GONE);
+    }
+
+    /**
+     * Show the loading state
+     */
+    private void showLoadingState() {
+        if (binding == null) {
+            return;
+        }
+
+        binding.emptyStateRefresh.setRefreshing(false);
+        binding.emptyStateRefresh.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.VISIBLE);
+        binding.swipeRefresh.setRefreshing(false);
+        binding.swipeRefresh.setVisibility(View.GONE);
+    }
+
+    /**
+     * Show the list of passwords
+     */
+    private void showListState() {
+        if (binding == null) {
+            return;
+        }
+
+        binding.emptyStateRefresh.setRefreshing(false);
+        binding.emptyStateRefresh.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.swipeRefresh.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -359,6 +414,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         numbers = sharedPreferences.getBoolean("numbers", true);
         brackets = sharedPreferences.getBoolean("brackets", false);
         adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
+        adapter.setSortOrder(sharedPreferences.getString("passwordSortOrder", "none"));
         if (!sharedPreferences.getBoolean("automaticThreading", true)) {
             poolSize = Integer.parseInt(sharedPreferences.getString("poolSize", "1"));
         }
