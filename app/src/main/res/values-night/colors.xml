@@ -9,6 +9,8 @@
     <color name="empty_state_bg">#163345</color>
     <color name="empty_state_icon">#7CC7FF</color>
     <color name="text_secondary">#A7B4C0</color>
+    <color name="length_badge_bg">#163345</color>
+    <color name="length_badge_text">#7CC7FF</color>
 
     <!-- Primary action colors. -->
     <color name="action_primary_bg">#7CC7FF</color>

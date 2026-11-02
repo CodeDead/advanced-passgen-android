@@ -18,6 +18,8 @@
     <color name="empty_state_bg">#E7F4FC</color>
     <color name="empty_state_icon">#00639B</color>
     <color name="text_secondary">#5B6B7A</color>
+    <color name="length_badge_bg">#E7F4FC</color>
+    <color name="length_badge_text">#00639B</color>
 
     <!-- Primary action colors. -->
     <color name="action_primary_bg">#00639B</color>

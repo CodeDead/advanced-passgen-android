@@ -31,6 +31,10 @@
     <string name="strength_fair">Redelijk</string>
     <string name="strength_good">Goed</string>
     <string name="strength_strong">Sterk</string>
+    <plurals name="password_length">
+        <item quantity="one">%d teken</item>
+        <item quantity="other">%d tekens</item>
+    </plurals>
     <string name="clear">Wachtwoorden wissen</string>
     <string name="add">Wachtwoord toevoegen</string>
     <string name="security">Beveiliging</string>
@@ -66,6 +70,7 @@
     <string name="threads_summary">Het aantal threads dat moet worden gebruikt voor wachtwoordgeneratie</string>
     <string name="display_password_strength">Toon wachtwoordsterkte</string>
     <string name="display_password_strength_summary">Toon de sterkte van het gegenereerde wachtwoord in de lijst</string>
+    <string name="sort_passwords">Wachtwoorden sorteren</string>
     <string name="export_passwords">Wachtwoorden exporteren</string>
     <string name="export_txt">Platte tekst (.txt)</string>
     <string name="export_csv">CSV (.csv)</string>

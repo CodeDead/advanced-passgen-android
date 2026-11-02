@@ -31,6 +31,11 @@
     <string name="strength_fair">Moyen</string>
     <string name="strength_good">Bon</string>
     <string name="strength_strong">Fort</string>
+    <plurals name="password_length">
+        <item quantity="one">%d caractère</item>
+        <item quantity="many">%d de caractères</item>
+        <item quantity="other">%d caractères</item>
+    </plurals>
     <string name="clear">Effacer les mots de passe</string>
     <string name="add">Ajouter un mot de passe</string>
     <string name="security">Sécurité</string>
@@ -66,6 +71,7 @@
     <string name="threads_summary">Le nombre de threads à utiliser pour la génération de mot de passe</string>
     <string name="display_password_strength">Afficher la force du mot de passe</string>
     <string name="display_password_strength_summary">Afficher la force du mot de passe généré dans la liste</string>
+    <string name="sort_passwords">Trier les mots de passe</string>
     <string name="export_passwords">Exporter les mots de passe</string>
     <string name="export_txt">Texte brut (.txt)</string>
     <string name="export_csv">CSV (.csv)</string>

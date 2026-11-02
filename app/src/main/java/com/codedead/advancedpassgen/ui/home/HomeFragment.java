@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         final RecyclerView recyclerView = binding.recyclerView;
         adapter = new PasswordAdapter(requireContext());
         adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
+        adapter.setSortOrder(sharedPreferences.getString("passwordSortOrder", "none"));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
@@ -114,9 +115,12 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.buttonAdd.setOnClickListener(view -> {
             final PasswordItem item = PasswordGenerator.generatePasswords(minimumLength, maximumLength, 1, smallLetters, capitalLetters, numbers, specialCharacters, brackets, spaces, customCharacterSet).get(0);
 
-            adapter.add(item);
+            final int position = adapter.add(item);
             showListState();
-            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+
+            if (position != RecyclerView.NO_POSITION) {
+                recyclerView.scrollToPosition(position);
+            }
         });
 
         binding.buttonClear.setOnClickListener(view -> {
@@ -410,6 +414,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         numbers = sharedPreferences.getBoolean("numbers", true);
         brackets = sharedPreferences.getBoolean("brackets", false);
         adapter.setDisplayStrength(sharedPreferences.getBoolean("showPasswordStrength", true));
+        adapter.setSortOrder(sharedPreferences.getString("passwordSortOrder", "none"));
         if (!sharedPreferences.getBoolean("automaticThreading", true)) {
             poolSize = Integer.parseInt(sharedPreferences.getString("poolSize", "1"));
         }

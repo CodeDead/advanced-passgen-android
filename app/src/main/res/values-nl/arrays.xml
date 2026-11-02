@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="password_sort_orders">
+        <item>Genereervolgorde</item>
+        <item>Kortste eerst</item>
+        <item>Langste eerst</item>
+    </string-array>
+</resources>

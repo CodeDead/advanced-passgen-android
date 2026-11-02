@@ -2,7 +2,6 @@ package com.codedead.advancedpassgen.domain;
 
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +13,9 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 public class PasswordViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView passwordTextView;
-    private final LinearLayout strengthContainer;
     private final LinearProgressIndicator strengthProgressBar;
     private final TextView strengthLabel;
+    private final TextView lengthLabel;
     private final ImageButton copyButton;
 
     /**
@@ -28,9 +27,9 @@ public class PasswordViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         passwordTextView = itemView.findViewById(R.id.password_text);
-        strengthContainer = itemView.findViewById(R.id.strength_container);
         strengthProgressBar = itemView.findViewById(R.id.password_strength);
         strengthLabel = itemView.findViewById(R.id.password_strength_label);
+        lengthLabel = itemView.findViewById(R.id.password_length);
         copyButton = itemView.findViewById(R.id.copy_button);
     }
 
@@ -41,15 +40,6 @@ public class PasswordViewHolder extends RecyclerView.ViewHolder {
      */
     public TextView getPasswordTextView() {
         return passwordTextView;
-    }
-
-    /**
-     * Get the container holding the strength indicator
-     *
-     * @return The strength {@link LinearLayout}
-     */
-    public LinearLayout getStrengthContainer() {
-        return strengthContainer;
     }
 
     /**
@@ -68,6 +58,15 @@ public class PasswordViewHolder extends RecyclerView.ViewHolder {
      */
     public TextView getStrengthLabel() {
         return strengthLabel;
+    }
+
+    /**
+     * Get the password length label {@link TextView}
+     *
+     * @return The password length label {@link TextView}
+     */
+    public TextView getLengthLabel() {
+        return lengthLabel;
     }
 
     /**

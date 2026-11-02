@@ -30,6 +30,10 @@
     <string name="strength_fair">Fair</string>
     <string name="strength_good">Good</string>
     <string name="strength_strong">Strong</string>
+    <plurals name="password_length">
+        <item quantity="one">%d character</item>
+        <item quantity="other">%d characters</item>
+    </plurals>
     <string name="clear">Clear passwords</string>
     <string name="add">Add password</string>
     <string name="security">Security</string>
@@ -65,6 +69,7 @@
     <string name="threads_summary">The amount of threads to use for password generation</string>
     <string name="display_password_strength">Display password strength</string>
     <string name="display_password_strength_summary">Display the strength of the generated password in the list</string>
+    <string name="sort_passwords">Sort passwords</string>
     <string name="export_passwords">Export passwords</string>
     <string name="export_txt">Plain text (.txt)</string>
     <string name="export_csv">CSV (.csv)</string>
