@@ -1,0 +1,5 @@
+- UI redesign
+- Enabled R8 optimizations
+- Added password length indicator
+- Added ability to sort by password length
+- Added German, Ukrainian and Russian translations
